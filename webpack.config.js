@@ -11,6 +11,21 @@ const baseSettings = {
 const settings = baseSettings[process.env.NODE_ENV];
 
 module.exports = {
+    resolve: {
+        modules: [
+            path.join(__dirname, 'resources/assets/js'),
+            path.join(__dirname, 'resources/assets/js/features'),
+            'node_modules'
+        ],
+        alias: {
+            // Features aliases
+            user: path.join(__dirname, 'resources/assets/js/features/user'),
+            vehicle: path.join(__dirname, 'resources/assets/js/features/vehicle'),
+            trip: path.join(__dirname, 'resources/assets/js/features/trip'),
+            booking: path.join(__dirname, 'resources/assets/js/features/booking'),
+        },
+        extensions: ['.js', '.jsx', '.json', '.scss', '.jpg', '.png']
+    },
     module: {
         rules: [
             {

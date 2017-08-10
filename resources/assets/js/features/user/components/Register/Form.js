@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { doRegister } from '../../actions';
-import Input from '../../../../app/components/Input';
+import { doRegister } from 'user/actions';
+import Input from 'app/components/Input';
 import { browserHistory } from 'react-router';
-import '../../styles/user_register.scss';
+import 'user/styles/user_register.scss';
 
-class Form extends React.Component {
+class Form extends Component {
 
     constructor() {
         super();

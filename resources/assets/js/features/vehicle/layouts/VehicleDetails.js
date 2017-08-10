@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import PageHeader from '../../../app/components/PageHeader';
-import VehicleProfile from '../components/VehicleProfile';
+import PageHeader from 'app/components/PageHeader';
+import VehicleProfile from 'vehicle/components/VehicleProfile';
 
-import '../styles/vehicle.scss';
+import 'vehicle/styles/vehicle.scss';
 
 class VehicleDetails extends Component {
 
