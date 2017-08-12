@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth;
 
 use App\User;
-use Illuminate\Support\Facades\App;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -11,9 +10,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class LoginUserTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
-    
+
     protected $urlAuthorization;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -69,7 +68,7 @@ class LoginUserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'email' => $user->email,
-            'password' => $user->password
+            'password' => $user->password,
         ]);
     }
 

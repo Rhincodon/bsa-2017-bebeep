@@ -4,9 +4,7 @@ namespace App\Services;
 
 use App\User;
 use App\Models\Trip;
-use App\Models\Route;
 use App\Repositories\TripRepository;
-use Illuminate\Support\Facades\Validator;
 use App\Services\Requests\CreateTripRequest;
 use App\Services\Requests\UpdateTripRequest;
 use App\Exceptions\User\UserHasNotPermissionsToDeleteTripException;
