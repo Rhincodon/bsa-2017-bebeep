@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Exceptions\Auth\CreateTokenException;
-use App\Exceptions\Auth\InvalidCredentialsException;
-use App\Exceptions\Auth\UserNotFoundException;
-use App\Exceptions\Auth\UserNotVerifiedException;
+use JWTAuth;
 use App\Http\Requests\LoginRequest;
 use App\Repositories\UserRepository;
 use App\Services\Requests\TokenRequest;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use JWTAuth;
+use App\Exceptions\Auth\CreateTokenException;
+use App\Exceptions\Auth\UserNotFoundException;
+use App\Exceptions\Auth\UserNotVerifiedException;
+use App\Exceptions\Auth\InvalidCredentialsException;
 
 class AuthUserService
 {
@@ -30,7 +30,7 @@ class AuthUserService
     }
 
     /**
-     * Auth service
+     * Auth service.
      *
      * @param LoginRequest $request
      * @return mixed
@@ -48,19 +48,19 @@ class AuthUserService
 
         $user = $this->userRepository->getUserByEmail($request->getEmail());
 
-        if(is_null($user)) {
+        if (is_null($user)) {
             throw new UserNotFoundException('User not register');
         }
 
-        if(!$user->isVerified()) {
+        if (! $user->isVerified()) {
             throw new UserNotVerifiedException('User not verified');
         }
 
         try {
             $token = JWTAuth::attempt($credentials);
 
-            if(!$token) {
-                throw new InvalidCredentialsException("Invalid credentials");
+            if (! $token) {
+                throw new InvalidCredentialsException('Invalid credentials');
             }
         } catch (JWTException $e) {
             throw new CreateTokenException('Could not create token');
@@ -70,7 +70,7 @@ class AuthUserService
     }
 
     /**
-     * Logout service method
+     * Logout service method.
      *
      * @param TokenRequest $tokenRequest
      * @param \Tymon\JWTAuth\JWTAuth $JWTAuth

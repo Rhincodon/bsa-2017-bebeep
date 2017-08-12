@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Vehicle;
-use Illuminate\Support\Facades\Auth;
-use App\Services\Contracts\PasswordService as PasswordServiceContract;
 use App\Services\PasswordService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use App\Services\Contracts\PasswordService as PasswordServiceContract;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -4,8 +4,8 @@ namespace Tests\Feature\Auth;
 
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Password;
 use Tests\JwtTestCase;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -17,6 +17,7 @@ class ResetPasswordTest extends JwtTestCase
 
     protected $urlPasswordReset;
     protected $urlPasswordForgot;
+
     public function setUp()
     {
         parent::setUp();
@@ -59,7 +60,7 @@ class ResetPasswordTest extends JwtTestCase
         $this->assertDatabaseMissing(
             config('auth.passwords.users.table'),
             [
-                'email' => $user->email
+                'email' => $user->email,
             ]
         );
         $response = $this->json('POST', $this->urlPasswordForgot, [
@@ -69,7 +70,7 @@ class ResetPasswordTest extends JwtTestCase
         $this->assertDatabaseHas(
             config('auth.passwords.users.table'),
             [
-                'email' => $user->email
+                'email' => $user->email,
             ]
         );
     }
@@ -81,7 +82,7 @@ class ResetPasswordTest extends JwtTestCase
     {
         $response = $this->json('PUT', $this->urlPasswordReset, [
             'email' => 'someuserthatnotexists@test.com',
-            'password' => '1a2b3c'
+            'password' => '1a2b3c',
         ], ['Token' => 'sometoken']);
         $response->assertStatus(422)->assertJsonStructure(['email' => []]);
     }
@@ -140,17 +141,16 @@ class ResetPasswordTest extends JwtTestCase
         $token = Password::broker()->createToken($user);
         \DB::table(config('auth.passwords.users.table'))->insert([
             'email' => $user->email,
-            'token' => $token
+            'token' => $token,
         ]);
         $response = $this->json('PUT', $this->urlPasswordReset, [
             'email' => $user->email,
-            'password' => '1a2b3c'
+            'password' => '1a2b3c',
         ], ['Token' => $token]);
         $response->assertStatus(200);
         $user = User::where(['id' => $user->id])->first();
         $this->assertTrue(app('hash')->check('1a2b3c', $user->password));
     }
-
 
     /**
      * @test

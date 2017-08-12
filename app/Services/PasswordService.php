@@ -2,20 +2,19 @@
 
 namespace App\Services;
 
-use App\Exceptions\User\PasswordResetException;
-use App\Exceptions\User\VerifyException;
-use App\Repositories\UserRepository;
-use App\Services\Contracts\PasswordService as PasswordServiceContract;
-use App\Services\Requests\ForgotPasswordRequest;
-use App\Services\Requests\ResetPasswordRequest;
-use Illuminate\Support\Facades\Password;
+use Mail;
 use Illuminate\Support\Str;
 use App\Mail\PasswordResetEmail;
-use Mail;
+use App\Repositories\UserRepository;
+use App\Exceptions\User\VerifyException;
+use Illuminate\Support\Facades\Password;
+use App\Exceptions\User\PasswordResetException;
+use App\Services\Requests\ResetPasswordRequest;
+use App\Services\Requests\ForgotPasswordRequest;
+use App\Services\Contracts\PasswordService as PasswordServiceContract;
 
 class PasswordService implements PasswordServiceContract
 {
-
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
@@ -28,8 +27,8 @@ class PasswordService implements PasswordServiceContract
         /** @var \App\User $user */
         $user = $this->userRepository->findByField('email', $request->getEmail())->first();
 
-        if (!$user->isVerified()) {
-            throw new VerifyException("Please, verify your account");
+        if (! $user->isVerified()) {
+            throw new VerifyException('Please, verify your account');
         }
 
         $token = $this->broker()->createToken($user);
@@ -54,15 +53,15 @@ class PasswordService implements PasswordServiceContract
         );
 
         if ($response !== Password::PASSWORD_RESET) {
-            switch($response) {
+            switch ($response) {
                 case Password::INVALID_PASSWORD:
-                    throw new PasswordResetException("Password is invalid", PasswordResetException::INVALID_PASSWORD);
+                    throw new PasswordResetException('Password is invalid', PasswordResetException::INVALID_PASSWORD);
                     break;
                 case Password::INVALID_TOKEN:
-                    throw new PasswordResetException("Token is invalid", PasswordResetException::INVALID_TOKEN);
+                    throw new PasswordResetException('Token is invalid', PasswordResetException::INVALID_TOKEN);
                     break;
                 case Password::INVALID_USER:
-                    throw new PasswordResetException("Email is invalid", PasswordResetException::INVALID_USER);
+                    throw new PasswordResetException('Email is invalid', PasswordResetException::INVALID_USER);
                     break;
             }
         }
